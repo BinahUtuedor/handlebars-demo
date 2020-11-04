@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Handlebars</title>
+    <style>
+        .redText { color: red; }
+        .blueText { color: blue; }
+        .greenText { color: green; }
+    </style>
+    <script src="handlebars-v4.7.6.js"></script>
+</head>
+<body>
+    <div id="quoteData"></div>
+    <script id="quote-template" type="text/x-handlebars-template">
+        <h3>Favorite {{name}} Quotes</h3>
+        <ol>
+            {{#each quotes}}
+            <li>{{quote}}
+                {{/each}}
+        </ol>
+        
+        {{{yogiBio}}}<br /> <br />
+
+        {{makeLink "Yogi Berra Museum" "http://yogiberramuseum.org/"}} <br />
+
+    </script>
+    <script>
+        var quoteInfo = document.getElementById("quote-template").innerHTML;
+        var template = Handlebars.compile(quoteInfo);
+
+        Handlebars.registerHelper("makeLink", function(text, url) {
+            text = Handlebars.Utils.escapeExpression(text);
+            url = Handlebars.Utils.escapeExpression(url);
+            var theLink = `<a href=" ${url} "> ${text} </a>`;
+            return new Handlebars.SafeString(theLink);
+        });
+
+        var quoteData = template({
+            name: "Yogi Berra",
+            quotes: [
+                {quote: "If you dont know where you are going, you might wind up someplace else."},
+                {quote: "You better cut the pizza in four pieces because I`m not hungry enough to eat six."},
+                {quote: "Nobody goes there anymore because it`s too crowded."}
+            ],
+
+            yogiBio: `<i>Lawrence Peter "Yogi" Berra (May 12, 1925 - September 22, 2015)
+            was an American professional baseball catcher, manager, and coach who played 19 
+            seasons in Major League baseball (MLB) (1946 - 63, 1965), all but the last for the 
+            New York Yankees. An 18-time All-Star and 10-time World series champion. As a player, 
+            Berra had a career batting average of .285, while compiling 358 home runs and 1,430
+            runs batted in.</i>`
+        });
+
+
+        document.getElementById("quoteData").innerHTML += quoteData;
+    </script>
+
+</body>
+</html>
