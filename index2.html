@@ -25,6 +25,10 @@
 
         {{makeLink "Yogi Berra Museum" "http://yogiberramuseum.org/"}} <br />
 
+        {{changeColor "Make my text red" color="red"}} <br />
+
+        {{sayHello}}
+
     </script>
     <script>
         var quoteInfo = document.getElementById("quote-template").innerHTML;
@@ -37,11 +41,37 @@
             return new Handlebars.SafeString(theLink);
         });
 
+        Handlebars.registerHelper("changeColor", function(text, options) {
+            text = Handlebars.Utils.escapeExpression(text);
+
+            if(options.hash.color === "red") {
+                return new Handlebars.SafeString("<span class='redText'>" + text + "</span>");                
+            } else if(options.hash.color === "blue") {
+                return new Handlebars.SafeString("<span class='blueText'>" + text + "</span>");       
+            } else {
+                return new Handlebars.SafeString("<span class='greenText'>" + text + "</span>");    
+            }
+        });
+
+        Handlebars.registerHelper("sayHello", function(options) {
+            switch(options.data.lang) {
+                case "spanish":
+                    return "Holla";
+                    break;
+                case "french":
+                    return "Bonjour";
+                    break;
+                default:
+                    return "Hello"
+            }
+        });
+
         var quoteData = template({
             name: "Yogi Berra",
             quotes: [
                 {quote: "If you dont know where you are going, you might wind up someplace else."},
                 {quote: "You better cut the pizza in four pieces because I`m not hungry enough to eat six."},
+                {quote: "I never said most of things I said."},
                 {quote: "Nobody goes there anymore because it`s too crowded."}
             ],
 
@@ -51,6 +81,10 @@
             New York Yankees. An 18-time All-Star and 10-time World series champion. As a player, 
             Berra had a career batting average of .285, while compiling 358 home runs and 1,430
             runs batted in.</i>`
+        }, {
+            data: {
+                lang: "spanish"
+            }
         });
 
 
