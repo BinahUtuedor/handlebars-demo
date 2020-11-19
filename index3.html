@@ -16,14 +16,26 @@
             Large
         {{/makeRadio}}
 
+        {{#areEqual 1 2}}
+            Numbers are are Equal
+        {{else}}
+            Numbers are not Equal
+        {{/areEqual}}
+
+        {{#if "isActive"}}
+            <img src="ntt-logo.png" alt="Active">
+        {{else}}
+            <img src="ntt-logo-horz.png" alt="Active">
+        {{/if}}
+
     </script>
     <script>
-       var templateInfo = document.getElementById("the-template").innerHTML;
+        let templateInfo = document.getElementById("the-template").innerHTML;
 
-       var template = Handlebars.compile(templateInfo);
+       let template = Handlebars.compile(templateInfo);
 
        Handlebars.registerHelper("makeRadio", function(name, options) {
-           var radioList = options.fn();
+           let radioList = options.fn();
            radioList = radioList.trim().split("\n");
 
            let output = ""; 
@@ -35,6 +47,22 @@
            }
            return output;
        });
+
+       Handlebars.registerHelper("areEqual", function(num1, num2, options) {
+           if(num1 == num2) {
+               return options.fn(this);
+           } else {
+               return options.inverse(this);
+           }
+       });
+
+       Handlebars.registerHelper("if", function(data, options) {
+           if(data === "isActive") {
+               return options.fn(this);
+           } else {
+               return options.inverse(this);
+           }
+       })
 
        let templateData = template({});
        document.getElementById("contentDiv").innerHTML += templateData;

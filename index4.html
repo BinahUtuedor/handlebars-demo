@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello Handlebars</title>
+    <script src="handlebars-v4.7.6.js"></script>
+</head>
+<body>
+    <div id="contentDiv"></div>
+    <script id="the-template" type="text/x-handlebars-template">
+        <div class="potter-1">
+            <h3>{{title}}</h3>
+            {{#with techData}}
+                <div class="isbn">{{{isbn}}}</div>
+                <div class="author">{{{author}}}</div>
+            {{/with}}
+        </div>
+    </script>
+
+    <script>
+        let templateInfo = document.getElementById("the-template").innerHTML;
+
+        //compile the template
+        let template = Handlebars.compile(templateInfo);
+
+        Handlebars.registerHelper('with', function(context, options) {
+            return options.fn(context);
+        });
+
+        let templateData = template({
+            title: "Harry Potter and the Philosopher`s stone",
+            techData: {
+                isbn: "0-7475-3269-9",
+                author: "J. K. Rowling"
+            }
+        });
+
+        document.getElementById('contentDiv').innerHTML += templateData;
+
+    </script>
+
+</body>
+</html>
